@@ -1,0 +1,14 @@
+{
+  "name": "node-rpi-2801-led",
+  "version": "0.0.1",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "rpi-ws281x-native": "^0.8.1"
+  }
+}
