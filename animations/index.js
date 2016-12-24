@@ -1,7 +1,9 @@
 var rainbow = require('./rainbow');
+var random = require('./random');
 
 var animations = {
-	rainbow: rainbow
+	rainbow: rainbow,
+	random: random
 };
 
 module.exports = {

@@ -9,5 +9,7 @@ module.exports = {
 		for (var i = 0; i < pixels.length; i++) {
 			pixels[i] = colors.rgb2Int(getRandom(0, 255), getRandom(0, 255), getRandom(0, 255));
 		}
+
+		return pixels;
 	}
 };
