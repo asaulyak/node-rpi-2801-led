@@ -1,5 +1,8 @@
 var ws281x = require('rpi-ws281x-native');
 
+var interval;
+
+//
 // var NUM_LEDS = parseInt(process.argv[2], 10) || 10,
 // 	pixelData = new Uint32Array(NUM_LEDS);
 //
@@ -8,7 +11,9 @@ var ws281x = require('rpi-ws281x-native');
 // // ---- trap the SIGINT and reset before exit
 // process.on('SIGINT', function () {
 // 	ws281x.reset();
-// 	process.nextTick(function () { process.exit(0); });
+// 	process.nextTick(function () {
+// 		process.exit(0);
+// 	});
 // });
 //
 //
@@ -24,8 +29,8 @@ var ws281x = require('rpi-ws281x-native');
 // }, 1000 / 30);
 //
 // console.log('Press <ctrl>+C to exit.');
-//
-//
+
+
 // // rainbow-colors, taken from http://goo.gl/Cs3H0v
 // function colorwheel(pos) {
 // 	pos = 255 - pos;
@@ -38,27 +43,29 @@ var ws281x = require('rpi-ws281x-native');
 // 	return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
 // }
 
-// rainbow-colors, taken from http://goo.gl/Cs3H0v
-function colorwheel(pos) {
-	pos = 255 - pos;
-	if (pos < 85) { return rgb2Int(255 - pos * 3, 0, pos * 3); }
-	else if (pos < 170) { pos -= 85; return rgb2Int(0, pos * 3, 255 - pos * 3); }
-	else { pos -= 170; return rgb2Int(pos * 3, 255 - pos * 3, 0); }
-}
-
-function rgb2Int(r, g, b) {
-	return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
-}
-
-var offset = 0;
 
 module.exports = {
-	requestFrame: function (pixels) {
-		for (var i = 0; i < pixels.length; i++) {
-			pixels[i] = colorwheel((offset + i) % 256);
-		}
+	run: function (pixelsCount, render) {
+		var pixelData = new Uint32Array(pixelsCount);
 
-		offset = (offset + 1) % 256;
-		return pixels;
+		process.on('SIGINT', function () {
+			ws281x.reset();
+			process.nextTick(function () {
+				process.exit(0);
+			});
+		});
+
+		ws281x.init(pixelsCount);
+
+		interval = setInterval(function () {
+			pixelData = render(pixelData);
+
+			ws281x.render(pixelData);
+			console.log(pixelData);
+		}, 1000 /*/ 60*/);
+	},
+
+	stop: function () {
+		clearInterval(interval);
 	}
 };
