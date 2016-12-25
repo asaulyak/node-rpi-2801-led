@@ -50,12 +50,6 @@ Random.prototype = {
 					this._pixelsBrightness[i] = undefined;
 				}
 			}
-
-
-
-
-
-			pixels[i] = colors.rgb2Int(getRandom(0, 255), getRandom(0, 255), getRandom(0, 255));
 		}
 
 		return pixels;
