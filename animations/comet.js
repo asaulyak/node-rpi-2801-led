@@ -28,6 +28,10 @@ Comet.prototype = {
 		for (var i = 0; i < pixels.length; i++) {
 			var distance = this._head - i;
 
+			if(this._head < this._tailLength && distance < 0 && frame - this._tailLength > 0) {
+				distance = pixels.length - i + this._head;
+			}
+
 			var rgb = {
 				r: 0,
 				g: 0,
