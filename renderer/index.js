@@ -17,9 +17,12 @@ module.exports = {
 
 		var offset = 0;
 		interval = setInterval(function () {
-			pixelData = render(pixelData, offset++);
+			console.time('render');
+			render(pixelData, offset++);
 
 			ws281x.render(pixelData);
+
+			console.timeEnd('render');
 		}, 1000 / 60);
 	},
 

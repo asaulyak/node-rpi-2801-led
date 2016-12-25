@@ -1,39 +1,52 @@
 var colors = require('../colors');
 var tinycolor = require('tinycolor2');
 
-function Comet() {
+function Comet(color) {
 	this._head = 0;
 	this._tailLength = 50;
-	this._step = 0.4;
+	this._color = tinycolor.fromRatio(color).toHsv();
+
+	this.update();
 }
 
 Comet.prototype = {
-	requestFrame: function (pixels, frame) {
-		for (var i = 0; i < pixels.length; i++) {
-			var distance = i - this._head;
-			var brightens = 0;
+	update: function () {
+		this._colors = [];
 
-			if (distance >= 0 && distance <= this._tailLength) {
-				brightens = (1 - distance / this._tailLength) * 1;
-			}
+		for (var i = 0; i < this._tailLength; i++) {
+			var brightens = (1 - i / this._tailLength) / 2.5;
 
-			var rgb = tinycolor.fromRatio({
-				h: 100,
+			this._colors.push(tinycolor.fromRatio({
+				h: this._color.h,
 				s: 1,
 				l: brightens
-			});
+			}).toRgb());
+		}
+	},
 
-			console.log(brightens);
+	requestFrame: function (pixels, frame) {
+		for (var i = 0; i < pixels.length; i++) {
+			var distance = this._head - i;
 
-			pixels[i] = colors.rgb2Int(rgb._r, rgb._g, rgb._b);
+			var rgb = {
+				r: 0,
+				g: 0,
+				b: 0
+			};
+
+			if (distance >= 0 && distance < this._tailLength) {
+				rgb = this._colors[distance];
+			}
+
+			pixels[i] = colors.rgb2Int(rgb.r, rgb.g, rgb.b);
 		}
 
 		this._head = frame % pixels.length;
-
-		// console.log(this._head);
-
-		return pixels;
 	}
 };
 
-module.exports = new Comet();
+module.exports = new Comet({
+	r: 0,
+	g: 0,
+	b: 255
+});
