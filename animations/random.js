@@ -33,6 +33,28 @@ Random.prototype = {
 		this.setRandomPixel(pixels.length);
 
 		for (var i = 0; i < pixels.length; i++) {
+			if (this._pixelsBrightness[i]) {
+				if (this._pixelsBrightness[i].value >= this._brightnessRoot.max) {
+					this._pixelsBrightness[i].direction = -1;
+				}
+
+				this._pixelsBrightness[i].value = this._pixelsBrightness[i].value
+					+ this._brightnessRoot.step * this._pixelsBrightness[i].direction;
+
+				// pixelBuffer.setHSL(i, this._pixelsBrightness[i].hue, 1, this._pixelsBrightness[i].value);
+
+				var rgb = tinycolor.fromRatio({ h: this._pixelsBrightness[i].hue, s: 1, l: this._pixelsBrightness[i].value });
+				pixels[i] = colors.rgb2Int(rgb._r, rgb._g, rgb._b);
+
+				if (this._pixelsBrightness[i].value <= this._brightnessRoot.min) {
+					this._pixelsBrightness[i] = undefined;
+				}
+			}
+
+
+
+
+
 			pixels[i] = colors.rgb2Int(getRandom(0, 255), getRandom(0, 255), getRandom(0, 255));
 		}
 
