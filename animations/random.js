@@ -41,9 +41,11 @@ Random.prototype = {
 				this._pixelsBrightness[i].value = this._pixelsBrightness[i].value
 					+ this._brightnessRoot.step * this._pixelsBrightness[i].direction;
 
-				// pixelBuffer.setHSL(i, this._pixelsBrightness[i].hue, 1, this._pixelsBrightness[i].value);
-
-				var rgb = tinycolor.fromRatio({ h: this._pixelsBrightness[i].hue, s: 1, l: this._pixelsBrightness[i].value });
+				var rgb = tinycolor.fromRatio({
+					h: this._pixelsBrightness[i].hue,
+					s: 1,
+					l: this._pixelsBrightness[i].value
+				});
 				pixels[i] = colors.rgb2Int(rgb._r, rgb._g, rgb._b);
 
 				if (this._pixelsBrightness[i].value <= this._brightnessRoot.min) {
@@ -64,9 +66,7 @@ Random.prototype = {
 		}
 		while (this._pixelsBrightness[randomPixel] && ++tries < pixels);
 
-		var hue = this.config.color.range === 'single'
-			? tinycolor(this.config.color.value).toHsl().h
-			: getRandom(0, 360);
+		var hue = getRandom(0, 360);
 
 		this._pixelsBrightness[randomPixel] = {
 			value: this._brightnessRoot.min + this._brightnessRoot.step,
