@@ -14,7 +14,7 @@ Comet.prototype = {
 			var brightens = 0;
 
 			if (distance >= 0 && distance <= this._tailLength) {
-				brightens = (1 - distance / this._tailLength) * 0.6;
+				brightens = (1 - distance / this._tailLength) * 1;
 			}
 
 			var rgb = tinycolor.fromRatio({
@@ -23,10 +23,14 @@ Comet.prototype = {
 				l: brightens
 			});
 
-			pixels[i] = colors.rgb2Int(rgb._r, rgb._g, rgb._b);
+			console.log(brightens);
 
-			this._head = frame % pixels.length;
+			pixels[i] = colors.rgb2Int(rgb._r, rgb._g, rgb._b);
 		}
+
+		this._head = frame % pixels.length;
+
+		// console.log(this._head);
 
 		return pixels;
 	}
