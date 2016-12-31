@@ -29,12 +29,14 @@ module.exports = {
 		clearInterval(interval);
 	},
 
-	runSequance: function (pixelsCount, renders, interval) {
+	runSequence: function (pixelsCount, renders, interval) {
 		var currentRenderIndex = 0;
+
+		this.run(pixelsCount, renders[0]);
 
 		setInterval(function () {
 			this.stop();
-			this.run(pixelsCount, renders[currentRenderIndex++ % renders.length]);
+			this.run(pixelsCount, renders[++currentRenderIndex % renders.length]);
 		}.bind(this), interval);
 	}
 };

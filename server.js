@@ -10,10 +10,10 @@ if(animationName) {
 	renderer.run(PIXELS_COUNT, animation.requestFrame.bind(animation));
 }
 else {
-	var animationSequance = animations.all()
+	var animationSequence = animations.all()
 		.map(function (animation) {
 		    return animation.requestFrame.bind(animation);
 		});
 
-	renderer.runSequance(PIXELS_COUNT, animationSequance, 60000);
+	renderer.runSequence(PIXELS_COUNT, animationSequence, 60000);
 }
