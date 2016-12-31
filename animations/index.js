@@ -11,5 +11,12 @@ var animations = {
 module.exports = {
 	get: function (animation) {
 		return animations[animation];
+	},
+
+	all: function () {
+		return Object.keys(animations)
+			.map(function (animation) {
+				return animations[animation];
+			});
 	}
 };
