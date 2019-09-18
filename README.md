@@ -1,5 +1,5 @@
 # node-rpi-2801-led
 
-# Roadmap
+## Roadmap
  * Add animations:
-  - train
+ * - train
